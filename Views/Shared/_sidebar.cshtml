@@ -1,0 +1,298 @@
+        
+@using Microsoft.AspNetCore.Identity
+@using DataSystem.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@using MyProject.MyExtensions
+@if (SignInManager.IsSignedIn(User) &&  User.IsInRole("guest"))
+{   
+    <aside class="main-sidebar">
+
+      <section class="sidebar">
+      <ul class="sidebar-menu">
+        <li class="header">MAIN NAVIGATION</li>
+          <li class="treeview">
+              <a href="/dashboard">
+                  <i class="fa fa-dashboard"></i>
+                  <span>Dashboard</span>
+                  <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+              </a>
+          <ul class="treeview-menu">
+              <li><a href="/dashboard"><i class="fa  fa-pie-chart"></i>Shamsi Dashboard</a></li>
+              <li><a href="/dashboardm"><i class="fa  fa-lightbulb-o"></i>Gregorian Dashboard</a></li>
+          </ul>
+          </li>
+        <li class="treeview">
+              <a href="#">
+                  <i class="fa fa-bar-chart"></i>
+                  <span>Reports</span>
+                  <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+              </a>
+          <ul class="treeview-menu">
+              <li><a href="/pivot/index"><i class="fa fa-table"></i>Pivot Table</a></li>
+          </ul>
+        </li>
+    </section>
+    </aside>
+}
+
+
+@if (User.IsInRole("dataentry"))
+{   
+    <aside class="main-sidebar">
+
+      <section class="sidebar">
+      <ul class="sidebar-menu">
+        <li class="header">MAIN NAVIGATION</li>
+          <li class="treeview">
+              <a href="/Checks">
+                  <i class="fa fa-dashboard"></i>
+                  <span>Dashboard</span>
+                  <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+              </a>
+          <ul class="treeview-menu">
+              <li><a href="/dashboard"><i class="fa  fa-pie-chart"></i>Shamsi Dashboard</a></li>
+              <li><a href="/dashboardm"><i class="fa  fa-lightbulb-o"></i>Gregorian Dashboard</a></li>
+          </ul>
+          </li>
+        <li class="treeview">
+              <a href="#">
+                  <i class="fa fa-bar-chart"></i>
+                  <span>Reports</span>
+                  <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+              </a>
+          <ul class="treeview-menu">
+              <li><a href="/pivot/index"><i class="fa fa-table"></i>Pivot Table</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-plus-square"></i> <span>Data Entry</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/nmr/index"><i class="fa fa-plus-circle"></i>Monthly Reports</a></li>
+            <li><a href="/qnr/index"><i class="fa fa-plus-circle"></i>Quarterly Reports</a></li>
+            <li><a href="/checks/index"><i class="fa fa-plus-circle"></i>Report Submission</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-th-large"></i> <span>Supply Request</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/report"><i class="fa fa-file"></i>SAM Request</a></li>
+            <li><a href="/mamreport"><i class="fa fa-file"></i>MAM Request</a></li>
+          </ul>
+        </li>
+      <li class="treeview">
+          <a href="#">
+            <i class="fa fa-support"></i> <span>Help Desk</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/manual"><i class="fa fa-file"></i>User Manual</a></li>
+            <li><a href="/manual/FAQ"><i class="fa fa-question-circle"></i>FAQ</a></li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+    </aside>
+}
+@if ((User.IsInRole("administrator")&&User.MyProperty()!="1"))
+{   
+    <aside class="main-sidebar">
+
+      <section class="sidebar">
+      <ul class="sidebar-menu">
+        <li class="header">MAIN NAVIGATION</li>
+          <li class="treeview">
+              <a href="/Checks">
+                  <i class="fa fa-dashboard"></i>
+                  <span>Dashboard</span>
+                  <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+              </a>
+          <ul class="treeview-menu">
+              <li><a href="/dashboard"><i class="fa  fa-pie-chart"></i>Shamsi Dashboard</a></li>
+              <li><a href="/dashboardm"><i class="fa  fa-lightbulb-o"></i>Gregorian Dashboard</a></li>
+          </ul>
+          </li>
+        <li class="treeview">
+              <a href="#">
+                  <i class="fa fa-bar-chart"></i>
+                  <span>Reports</span>
+                  <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+              </a>
+          <ul class="treeview-menu">
+              <li><a href="/pivot/index"><i class="fa fa-table"></i>Pivot Table</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-search-plus"></i> <span>Data Entry</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+              <li><a href="/nmr/adminNmr"><i class="fa fa-eye"></i>Monthly Reports</a></li>
+              <li><a href="/qnr/adminView"><i class="fa fa-eye"></i>Quarterly Reports</a></li>
+              <li><a href="/Checks"><i class="fa fa-eye"></i>Report Submission</a></li>  
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-th-large"></i> <span>Supply Request</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/report/adminView"><i class="fa fa-file"></i>SAM Request</a></li>
+            <li><a href="/mamreport/adminView"><i class="fa fa-file"></i>MAM Request</a></li>
+          </ul>
+        </li>
+      <li class="treeview">
+          <a href="#">
+            <i class="fa fa-support"></i> <span>Help Desk</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/manual"><i class="fa fa-file"></i>User Manual</a></li>
+            <li><a href="/manual/FAQ"><i class="fa fa-question-circle"></i>FAQ</a></li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+    </aside>
+}
+@if(User.IsInRole("administrator")&&User.MyProperty()=="1")
+{
+
+    <aside class="main-sidebar">
+
+      <section class="sidebar">
+      <ul class="sidebar-menu">
+        <li class="header">MAIN NAVIGATION</li>
+          <li class="treeview">
+              <a href="/Checks">
+                  <i class="fa fa-dashboard"></i>
+                  <span>Dashboard</span>
+                  <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+              </a>
+          <ul class="treeview-menu">
+              <li><a href="/dashboard"><i class="fa  fa-pie-chart"></i>Shamsi Dashboard </a></li>
+              <li><a href="/dashboardm"><i class="fa  fa-lightbulb-o"></i>Gregorian Dashboard</a></li>
+          </ul>
+          </li>
+        <li class="treeview">
+              <a href="#">
+                  <i class="fa fa-bar-chart"></i>
+                  <span>Reports</span>
+                  <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+              </a>
+          <ul class="treeview-menu">
+              <li><a href="/pivot/index"><i class="fa  fa-table"></i>Pivot Table</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-search-plus"></i> <span>View Reports</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+              <li><a href="/nmr/adminNmr"><i class="fa fa-eye"></i>Monthly Reports</a></li>
+              <li><a href="/qnr/adminView"><i class="fa fa-eye"></i>Quarterly Reports</a></li>    
+              <li><a href="/Checks"><i class="fa fa-eye"></i>Report Submission</a></li>         
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-th-large"></i> <span>Supply Requests</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/report/adminView"><i class="fa fa-file"></i>SAM Request</a></li>
+            <li><a href="/mamreport/adminView"><i class="fa fa-file"></i>MAM Request</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-table"></i> <span>Master Data</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+              <li><a href="/Province/index"><i class="fa fa-location-arrow"></i>Province</a></li>
+              <li><a href="/Districts/index"><i class="fa fa-location-arrow"></i>Districts</a></li>
+              <li><a href="/FacilityInfo/index"><i class="fa fa-location-arrow"></i>Health Facilities</a></li>
+              <li><a href="/Import/index"><i class="fa fa-location-arrow"></i>Import Facilities</a></li>
+              <li><a href="/FacilityTypes/index"><i class="fa fa-list"></i>Facility Types</a></li>
+              <li><a href="/Implementer/index"><i class="fa fa-circle-o"></i>Implementers</a></li>
+              <li><a href="/TlkpMns/index"><i class="fa fa-list"></i>Growth Monitoring Items</a></li>
+              <li><a href="/TlkpOtptfus/index"><i class="fa fa-list"></i>SAM Age Group</a></li>
+              <li><a href="/tlkpsstocks/index"><i class="fa fa-list"></i>SAM Stock Items</a></li>
+              <li><a href="/tlkpsfps/index"><i class="fa fa-list"></i>MAM Beneficiaries Type</a></li>
+              <li><a href="/tlkpfstocks/index"><i class="fa fa-list"></i>MAM Food Items</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-support"></i> <span>Help Desk</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/manual/adminman"><i class="fa fa-file"></i>Admin Manual</a></li>
+            <li><a href="/manual"><i class="fa fa-file"></i>User Manual</a></li>
+            <li><a href="/manual/FAQ"><i class="fa fa-question-circle"></i>FAQ</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-user-plus"></i> <span>User Management</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+              <li><a href="/account/userslist"><i class="fa fa-users"></i>Users List</a></li>    
+              <li><a href="/tenants"><i class="fa fa-link"></i>Tenants</a></li>        
+                  
+          </ul>
+        </li>
+      </ul>
+    </section>
+    </aside>
+}
