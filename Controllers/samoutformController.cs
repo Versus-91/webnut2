@@ -30,6 +30,17 @@ namespace DataSystem.Controllers
             _userManager = userManager;
 
         }
+        [HttpGet("que/{nmrid}")]
+        [Authorize(Roles = "administrator")]
+        public async Task<IEnumerable<Feedback>> que([FromRoute] string nmrid)
+        {
+            if (nmrid == null)
+            {
+                NotFound(new { Error = "Bad Request." });
+            }
+            var data =await _context.Feedback.Where(m =>m.Nmrid==nmrid).ToListAsync();
+            return data;
+        }
         [HttpGet("admin/{nmrid}")]
         [Authorize(Roles = "administrator")]
         public async Task<IEnumerable<SamoutDto>> adminfind([FromRoute] string nmrid)

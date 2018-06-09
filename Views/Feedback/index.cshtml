@@ -1,4 +1,4 @@
-@model DataSystem.Models.Nmr
+@model DataSystem.Models.Feedback
 @{
     ViewData["Title"] = "Nutrition Monthly Report";
 }
@@ -8,7 +8,7 @@
 <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li ><a asp-action="questions" asp-route-id="@Model.Nmrid">Screening</a> </li>
-			  <li ><a asp-controller="Nmr" asp-action="samin" asp-route-id="@Model.Nmrid">IPD-SAM</a> </li>
+			        <li ><a asp-controller="Nmr" asp-action="samin" asp-route-id="@Model.Nmrid">IPD-SAM</a> </li>
               <li ><a asp-controller="Nmr" asp-action="samout" asp-route-id="@Model.Nmrid">OPD-SAM</a> </li>
               <li ><a asp-controller="Nmr" asp-action="opdmam" asp-route-id="@Model.Nmrid">OPD-MAM</a> </li>
               <li ><a asp-controller="Nmr" asp-action="msformv" asp-route-id="@Model.Nmrid">GMP (Health Facility)</a></li>
@@ -17,9 +17,86 @@
 			</ul>
 		<div class="tab-content">
         <div class="tab-pane active" id="tab_1" data-bind="visible:!sending()">
-          ddf
-        </div>
-        </div>
-        </div>
+          <div class="container">
 
+            <form asp-action="Create">
+        <div class="form-horizontal ">
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Nmrid" />
+            <div class="form-group">
+                <label asp-for="Problem" class="col-md-2 control-label"></label>
+                <div class="col-md-8">
+                    <input asp-for="Problem" class="form-control" />
+                    <span asp-validation-for="Problem" class="text-danger" />
+                </div>
+            </div>
 
+            <br/>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-8">
+                    <input type="submit" value="Send" class="btn btn-primary" />
+                </div>
+            </div>
+            <hr/>
+                     <div class="table-responsive">
+            <table id="tbl" class="table table-bordered dt-responsive nowrap"  width="100%">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.Initiator)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.Respondent)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.Problem)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.Respose)
+                        </th>
+                        <th class="text-center" data-priority="1">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.items)
+                    {
+                        <tr class="text-center">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Initiator)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Respondent)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Problem)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Respose)
+                            </td>
+                            <td>
+                                <div style="display: inline-block; float: none; white-space: nowrap;">
+                                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
+                                      | <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
+                                 </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </form>
+          </div>
+        </div>
+        </div>
+        </div>
+@section Scripts{
+
+    <script>
+             $('#tbl').DataTable({
+                responsive: true,
+                fixedHeader: true,
+            });
+    </script>
+}

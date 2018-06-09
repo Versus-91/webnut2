@@ -1097,7 +1097,7 @@ namespace DataSystem.Models
         public virtual DbSet<checkcompleteness> checkcompleteness { get; set; }
         public virtual DbSet<submissionRes> submissionRes { get; set; }
         public virtual DbSet<TblFeedback> TblFeedback { get; set; }
-        public virtual DbSet<Feedback> TFeedback { get; set; }
+        public virtual DbSet<Feedback> Feedback { get; set; }
         public virtual DbSet<TblFstock> TblFstock { get; set; }
         public virtual DbSet<TblIycf> TblIycf { get; set; }
         public virtual DbSet<TblMam> TblMam { get; set; }

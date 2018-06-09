@@ -8,6 +8,7 @@ function FormViewModel(model) {
     var uri = "/api/samin";
     self.stocks = ko.observableArray();
     self.samoutstocks = ko.observableArray();
+    self.questions = ko.observableArray();
     self.error = ko.observable();
     self.success = ko.observable();
     self.dataArray = ko.observableArray();
@@ -109,7 +110,12 @@ function FormViewModel(model) {
         });
     }
 
-
+    function getQuestions() {
+        var token = $("input[name=__RequestVerificationToken]").val();
+        ajaxHelper('/api/samout/que/' + [model.nmrid], 'GET', null, token).done(function (data) {
+            self.questions(data);
+        });
+    }
 
     function getStocks() {
         var token = $("input[name=__RequestVerificationToken]").val();
@@ -322,4 +328,5 @@ function FormViewModel(model) {
     getopds();
     getopdstocks();
     getdataArray();
+    getQuestions();
 }

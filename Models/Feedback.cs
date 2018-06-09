@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace DataSystem.Models
 {
     public partial class Feedback
@@ -10,6 +13,8 @@ namespace DataSystem.Models
         public string Problem { get; set; }
         public string Respose { get; set; }
         public virtual Nmr Nmr { get; set; }
+        [NotMapped]
+        public  ICollection<Feedback> items { get; set; }
 
     }
 }
