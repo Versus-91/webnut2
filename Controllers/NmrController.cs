@@ -110,7 +110,7 @@ namespace DataSystem.Controllers
         //IDataTablesRequest request
         [Authorize(Roles = "administrator")]
         [HttpPost]
-        public async Task<IActionResult> AdminPageData()
+        public async Task<IActionResult> AdminPageData(DataTables.AspNet.Core.IDataTablesRequest request)
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             List<NmrVm> data;
@@ -137,49 +137,46 @@ namespace DataSystem.Controllers
                 PreparedBy = m.PreparedBy,
             }).Where(m=>m.stat!=3).OrderByDescending(m => m.OpeningDate).AsNoTracking().ToListAsync();
 
+            List<NmrVm> filteredData;
+            if (String.IsNullOrWhiteSpace(request.Search.Value))
+            {
+                filteredData = data;
+            }
+            else
+            {
+                int a;
+                int y;
+                bool result = int.TryParse(request.Search.Value, out a);
+                if (!request.Search.Value.Contains("/"))
+                {
+                    if (result)
+                    {
+                        filteredData = data.Where(_item => _item.Month == a || _item.Year == a).ToList();
+                    }
+                    else
+                    {
+                        string text = request.Search.Value.Trim().ToLower();
+                        filteredData = data.Where(_item => _item.FacilityName != null && _item.FacilityName.ToLower().Contains(text)).ToList();
+                    }
+                }
+                else if (request.Search.Value.Contains("/"))
+                {
+                    string search = request.Search.Value.Trim();
+                    string[] words = search.Split('/');
+                    int.TryParse(words[0], out y);
+                    int.TryParse(words[1], out a);
+                    filteredData = data.Where(_item => _item.Month == a && _item.Year == y).ToList();
+                }
+                else
+                {
+                    filteredData = data;
+                }
 
-            return Ok(new { data = data });
+            }
 
-            // List<NmrVm> filteredData;
-            // if (String.IsNullOrWhiteSpace(request.Search.Value))
-            // {
-            //     filteredData = data;
-            // }
-            // else
-            // {
-            //     int a;
-            //     int y;
-            //     bool result = int.TryParse(request.Search.Value, out a);
-            //     if (!request.Search.Value.Contains("/"))
-            //     {
-            //         if (result)
-            //         {
-            //             filteredData = data.Where(_item => _item.Month == a || _item.Year == a).ToList();
-            //         }
-            //         else
-            //         {
-            //             string text = request.Search.Value.Trim().ToLower();
-            //             filteredData = data.Where(_item => _item.FacilityName != null && _item.FacilityName.ToLower().Contains(text)).ToList();
-            //         }
-            //     }
-            //     else if (request.Search.Value.Contains("/"))
-            //     {
-            //         string search = request.Search.Value.Trim();
-            //         string[] words = search.Split('/');
-            //         int.TryParse(words[0], out y);
-            //         int.TryParse(words[1], out a);
-            //         filteredData = data.Where(_item => _item.Month == a && _item.Year == y).ToList();
-            //     }
-            //     else
-            //     {
-            //         filteredData = data;
-            //     }
-
-            // }
-
-            // var dataPage = filteredData.Skip(request.Start).Take(request.Length);
-            // var response = DataTablesResponse.Create(request, data.Count(), filteredData.Count(), dataPage);
-            // return new DataTablesJsonResult(response, true);
+            var dataPage = filteredData.Skip(request.Start).Take(request.Length);
+            var response = DataTablesResponse.Create(request, data.Count(), filteredData.Count(), dataPage);
+            return new DataTablesJsonResult(response, true);
         }
 
         [Authorize(Roles = "dataentry")]
@@ -488,6 +485,7 @@ namespace DataSystem.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "administrator")]
+        [Authorize(Policy = "admin")]
         public async Task<IActionResult> verifyNmr([Bind("Nmrid,message,StatusId")] ReviewViewModel nmr)
         {
             if (nmr.Nmrid == null)

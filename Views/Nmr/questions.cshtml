@@ -6,10 +6,11 @@
 <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a asp-action="questions" asp-route-id="@Model.Nmrid">Screening</a> </li>
-			  <li ><a asp-action="samin" asp-route-id="@Model.Nmrid">IPD-SAM</a> </li>
-              <li ><a asp-action="samout" asp-route-id="@Model.Nmrid">OPD-SAM</a> </li>
-              <li ><a asp-action="opdmam" asp-route-id="@Model.Nmrid">OPD-MAM</a> </li>
-              <li ><a asp-action="msformv" asp-route-id="@Model.Nmrid">GMP (Health Facility)</a></li>
+			  <li ><a asp-controller="Nmr" asp-action="samin" asp-route-id="@Model.Nmrid">IPD-SAM</a> </li>
+              <li ><a asp-controller="Nmr" asp-action="samout" asp-route-id="@Model.Nmrid">OPD-SAM</a> </li>
+              <li ><a asp-controller="Nmr" asp-action="opdmam" asp-route-id="@Model.Nmrid">OPD-MAM</a> </li>
+              <li ><a asp-controller="Nmr" asp-action="msformv" asp-route-id="@Model.Nmrid">GMP (Health Facility)</a></li>
+              <li ><a  asp-controller="Feedback" asp-action="index" asp-route-nmrid="@Model.Nmrid">Feedback</a> </li>
               <li><a href="/nmr/">Back To List</a> </li>
 			</ul>
 <div class="tab-content">

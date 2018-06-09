@@ -14,6 +14,7 @@ namespace DataSystem.Models
         public int TenantId{get;set;}
         [NotMapped]
         public IList<string> RoleNames { get; set; }
+        [NotMapped]
         public IList<string> Tenants {get;set;}
     }
 }

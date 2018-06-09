@@ -8,9 +8,10 @@ using DataSystem.Models;
 namespace DataSystem.Migrations
 {
     [DbContext(typeof(WebNutContext))]
-    partial class WebNutContextModelSnapshot : ModelSnapshot
+    [Migration("20180608090228_feedback")]
+    partial class feedback
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

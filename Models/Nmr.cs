@@ -83,5 +83,7 @@ namespace DataSystem.Models
         public virtual FacilityInfo Facility { get; set; }
         public virtual LkpHfstatus HfactiveStatus { get; set; }
         public virtual TblkpStatus Status { get; set; }
+        public virtual ICollection<Feedback> Feedback { get; set; }
+
     }
 }

@@ -81,7 +81,7 @@ function FormViewModel(model) {
     self.totalw = ko.computed(function () {
         var sum = 0;
         ko.utils.arrayForEach(self.all(), function (report) {
-            sum += Number(report.women);
+            sum += Number(report.chu2m);
         });
         return sum;
     });
@@ -89,7 +89,7 @@ function FormViewModel(model) {
     self.totalc = ko.computed(function () {
         var sum = 0;
         ko.utils.arrayForEach(self.all(), function (report) {
-            sum += Number(report.children5);
+            sum += Number(report.chu2f);
         });
         return sum;
     });
@@ -97,7 +97,7 @@ function FormViewModel(model) {
     self.totalp = ko.computed(function () {
         var sum = 0;
         ko.utils.arrayForEach(self.all(), function (report) {
-            sum += Number(report.lactating);
+            sum += Number(report.refbyCHW);
         });
         return sum;
     });

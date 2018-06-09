@@ -1021,46 +1021,68 @@ namespace DataSystem.Models
 
             });
 
-        modelBuilder.Entity<YearFilter>(entity=>
-        {
-                entity.HasKey(e => e.Facility);
-                entity.Property(e=>e.YearFrom).HasColumnName("YearFrom");
-                entity.Property(e=>e.YearTo).HasColumnName("YearTo");
-        } );
-        modelBuilder.Entity<ProvinceFilter>(entity=>
-        {
-                entity.HasKey(e => e.Implementer);
-                entity.Property(e=>e.ProvCode).HasColumnName("ProvCode");
-                entity.Property(e=>e.ProvName).HasColumnName("ProvName");
-        } );
-        modelBuilder.Entity<ImpFilter>(entity=>
-        {
-                entity.HasKey(e => e.ImpCode);
-                entity.Property(e=>e.Implementer).HasColumnName("Implementer");
-        } );
-        
-        modelBuilder.Entity<TempFacility>(entity =>
+            modelBuilder.Entity<YearFilter>(entity =>
             {
-                entity.HasIndex(e=>e.FacilityId).IsUnique(true);
-                entity.Property(e => e.FacilityId)
-                    .HasColumnName("FacilityID")
-                    .ValueGeneratedNever();
-                entity.Property(e => e.DistCode).HasMaxLength(50);
-                entity.Property(e => e.FacilityName).HasMaxLength(255);
-                entity.Property(e => e.FacilityNameDari).HasMaxLength(255);
-                entity.Property(e => e.FacilityNamePashto).HasMaxLength(255);
-                entity.Property(e=>e.FacilityType).HasColumnName("FacilityType");
-                entity.Property(e => e.Location).HasMaxLength(255);
-                entity.Property(e => e.LocationDari).HasMaxLength(255);
-                entity.Property(e => e.LocationPashto).HasMaxLength(255);
-                entity.Property(e => e.ViliCode).HasMaxLength(255);
-                entity.Property(e => e.Lat).HasColumnName("LAT");
-                entity.Property(e => e.Lon).HasColumnName("LON");
-                entity.Property(e => e.Implementer).HasMaxLength(255);
-                entity.Property(e => e.SubImplementer).HasMaxLength(255);
-                entity.Property(e => e.ActiveStatus).HasMaxLength(10);
-                entity.Property(e => e.DateEstablished).HasColumnType("datetime2(0)");
+                entity.HasKey(e => e.Facility);
+                entity.Property(e => e.YearFrom).HasColumnName("YearFrom");
+                entity.Property(e => e.YearTo).HasColumnName("YearTo");
             });
+            modelBuilder.Entity<ProvinceFilter>(entity =>
+            {
+                entity.HasKey(e => e.Implementer);
+                entity.Property(e => e.ProvCode).HasColumnName("ProvCode");
+                entity.Property(e => e.ProvName).HasColumnName("ProvName");
+            });
+            modelBuilder.Entity<ImpFilter>(entity =>
+            {
+                entity.HasKey(e => e.ImpCode);
+                entity.Property(e => e.Implementer).HasColumnName("Implementer");
+            });
+
+            modelBuilder.Entity<TempFacility>(entity =>
+                {
+                    entity.HasIndex(e => e.FacilityId).IsUnique(true);
+                    entity.Property(e => e.FacilityId)
+                        .HasColumnName("FacilityID")
+                        .ValueGeneratedNever();
+                    entity.Property(e => e.DistCode).HasMaxLength(50);
+                    entity.Property(e => e.FacilityName).HasMaxLength(255);
+                    entity.Property(e => e.FacilityNameDari).HasMaxLength(255);
+                    entity.Property(e => e.FacilityNamePashto).HasMaxLength(255);
+                    entity.Property(e => e.FacilityType).HasColumnName("FacilityType");
+                    entity.Property(e => e.Location).HasMaxLength(255);
+                    entity.Property(e => e.LocationDari).HasMaxLength(255);
+                    entity.Property(e => e.LocationPashto).HasMaxLength(255);
+                    entity.Property(e => e.ViliCode).HasMaxLength(255);
+                    entity.Property(e => e.Lat).HasColumnName("LAT");
+                    entity.Property(e => e.Lon).HasColumnName("LON");
+                    entity.Property(e => e.Implementer).HasMaxLength(255);
+                    entity.Property(e => e.SubImplementer).HasMaxLength(255);
+                    entity.Property(e => e.ActiveStatus).HasMaxLength(10);
+                    entity.Property(e => e.DateEstablished).HasColumnType("datetime2(0)");
+                });
+
+
+            modelBuilder.Entity<Feedback>(entity =>
+                      {
+                          entity.HasKey(e => e.Id)
+                              .HasName("PK_Feedback");
+
+                          entity.ToTable("Feedback");
+
+                          entity.Property(e => e.Nmrid)
+                              .HasColumnName("NMRID")
+                              .HasMaxLength(100);
+                          entity.Property(e => e.Initiator).HasMaxLength(255);
+                          entity.Property(e => e.Respondent).HasMaxLength(255);
+                          entity.Property(e => e.Respondent).HasMaxLength(255);
+                          entity.Property(e => e.Problem).HasMaxLength(255);
+
+                          entity.HasOne(d => d.Nmr)
+                              .WithMany(p => p.Feedback)
+                              .HasForeignKey(d => d.Nmrid)
+                              .HasConstraintName("FK_Feedback_NMR");
+                      });
         }
         public virtual DbSet<Tenant> Tenants { get; set; }
         public virtual DbSet<Districts> Districts { get; set; }
@@ -1075,6 +1097,7 @@ namespace DataSystem.Models
         public virtual DbSet<checkcompleteness> checkcompleteness { get; set; }
         public virtual DbSet<submissionRes> submissionRes { get; set; }
         public virtual DbSet<TblFeedback> TblFeedback { get; set; }
+        public virtual DbSet<Feedback> TFeedback { get; set; }
         public virtual DbSet<TblFstock> TblFstock { get; set; }
         public virtual DbSet<TblIycf> TblIycf { get; set; }
         public virtual DbSet<TblMam> TblMam { get; set; }
@@ -1096,9 +1119,9 @@ namespace DataSystem.Models
         public virtual DbSet<TlkpOtptfu> TlkpOtptfu { get; set; }
         public virtual DbSet<TlkpSfp> TlkpSfp { get; set; }
         public virtual DbSet<TlkpSstock> TlkpSstock { get; set; }
-        public virtual DbSet<TempFacility> TempFacility {get;set;}
-        public virtual DbSet<YearFilter> YearFilter {get;set;}
-        public virtual DbSet<ProvinceFilter> ProvinceFilter {get;set;}
-        public virtual DbSet<ImpFilter> ImpFilter {get;set;}
+        public virtual DbSet<TempFacility> TempFacility { get; set; }
+        public virtual DbSet<YearFilter> YearFilter { get; set; }
+        public virtual DbSet<ProvinceFilter> ProvinceFilter { get; set; }
+        public virtual DbSet<ImpFilter> ImpFilter { get; set; }
     }
 }
