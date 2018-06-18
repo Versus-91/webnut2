@@ -16,6 +16,9 @@
                     @Html.DisplayNameFor(model => model.Facility.FacilityName)
                 </th>
                 <th data-priority="1">
+                   Type
+                </th>
+                <th data-priority="1">
                     Province
                 </th>
                 <th>
@@ -25,7 +28,7 @@
                     @Html.DisplayNameFor(model => model.Implementer)
                 </th>
                 <th>
-                    health facility status
+                    HF status
                 </th>
                 <th data-priority="1">
                     @Html.DisplayNameFor(model => model.Month)
@@ -66,6 +69,7 @@
                 "columns": [
                         {"data":"facilityId","name":"FacilityId","autoWidth":true},
                         { "data": "facilityName", "name": "FacilityName", "autoWidth": true },
+                        { "data": "typeAbbrv", "name": "TypeAbbrv", "autoWidth": true },
                         { "data": "province", "name": "Province", "autoWidth": true },
                         { "statusDescription": "Description", "autoWidth": true },
                         { "data": "implementer", "name": "Implementer", "autoWidth": true },
@@ -83,26 +87,13 @@
                 {
 
                     "data": "nmrid",
-                    "targets": 11,
+                    "targets": 12,
                     "sorting": false,
                     "orderable": false,
                     "class": 'text-center',
                     "width": "8%",
                     "render": function (data, type, row) {
                         return '<div style="display: inline-block; float: none; white-space: nowrap;"> <a target="_blank" href="/nmr/reports?nmrid=' + row.nmrid + '" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></a></div>';
-                    }
-                },
-                {
-                    "targets": 8,
-                    "sorting": false,
-                    "orderable": false,
-                    "class": 'text-center',
-                    "render": function (data, type, row) {
-                        if (data) {
-                            var mDate = moment(data);
-                            return (mDate && mDate.isValid()) ? mDate.format("DD/MM/YYYY LT") : "";
-                        }
-                        return "";
                     }
                 },
                 {
@@ -119,7 +110,20 @@
                     }
                 },
                 {
-                    "targets": 3,
+                    "targets": 10,
+                    "sorting": false,
+                    "orderable": false,
+                    "class": 'text-center',
+                    "render": function (data, type, row) {
+                        if (data) {
+                            var mDate = moment(data);
+                            return (mDate && mDate.isValid()) ? mDate.format("DD/MM/YYYY LT") : "";
+                        }
+                        return "";
+                    }
+                },
+                {
+                    "targets": 4,
                     "data": "stat",
                     "class": 'text-center',
                     "sorting": false,

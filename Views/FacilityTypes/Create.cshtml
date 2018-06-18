@@ -45,13 +45,20 @@
                     <span asp-validation-for="FacTypePashto" class="text-danger" />
                 </div>
             </div>
-            <br/>
+            <div class="form-group">
+                <label asp-for="TypeAbbrv" class="col-md-2 control-label"></label>
+                <div class="col-md-8">
+                    <input asp-for="TypeAbbrv" class="form-control" />
+                    <span asp-validation-for="TypeAbbrv" class="text-danger" />
+                </div>
+            </div>
+            <br />
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-8">
                     <input type="submit" value="Save" class="btn btn-block btn-primary" />
                 </div>
             </div>
-            <hr/>
+            <hr />
         </div>
     </form>
 

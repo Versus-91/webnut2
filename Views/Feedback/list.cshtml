@@ -10,12 +10,12 @@
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
         <li><a asp-action="questions" asp-route-id="@Model.Nmrid">Screening</a> </li>
-        <li><a asp-controller="Nmr" asp-action="samin" asp-route-id="@Model.Nmrid">IPD-SAM</a> </li>
-        <li><a asp-controller="Nmr" asp-action="samout" asp-route-id="@Model.Nmrid">OPD-SAM</a> </li>
-        <li><a asp-controller="Nmr" asp-action="opdmam" asp-route-id="@Model.Nmrid">OPD-MAM</a> </li>
-        <li><a asp-controller="Nmr" asp-action="msformv" asp-route-id="@Model.Nmrid">GMP (Health Facility)</a></li>
-        <li class="active"><a asp-controller="Feedback" asp-action="index" asp-route-nmrid="@Model.Nmrid">Feedback</a> </li>
-        <li><a href="/nmr/">Back To List</a> </li>
+        <li><a asp-controller="Nmr" asp-action="reports" asp-route-id="@Model.Nmrid">IPD-SAM</a> </li>
+        <li><a asp-controller="Nmr" asp-action="reports" asp-route-id="@Model.Nmrid">OPD-SAM</a> </li>
+        <li><a asp-controller="Nmr" asp-action="reports" asp-route-id="@Model.Nmrid">OPD-MAM</a> </li>
+        <li><a asp-controller="Nmr" asp-action="reports" asp-route-id="@Model.Nmrid">GMP (Health Facility)</a></li>
+        <li class="active"><a asp-controller="Feedback" asp-action="list" asp-route-nmrid="@Model.Nmrid">Feedback</a> </li>
+        <li><a href="/nmr/adminNmr">Back To List</a> </li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="tab_1" data-bind="visible:!sending()">

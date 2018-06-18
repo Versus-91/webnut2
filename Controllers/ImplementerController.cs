@@ -13,11 +13,13 @@ namespace DataSystem.Controllers
   
     public class ImplementerController : Controller
     {
+
         private readonly WebNutContext _context;
 
         public ImplementerController(WebNutContext context)
         {
-            _context = context;    
+            _context = context;
+            
         }
 
         // GET: Implementer

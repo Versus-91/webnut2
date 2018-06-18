@@ -24,5 +24,6 @@ public partial class monthlysubmission
     public int M11 { get; set; }
     public int M12 { get; set; }
     public int Tenant{get;set;}
+    public string ProvId{get;set;}
 }
 }

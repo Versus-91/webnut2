@@ -53,7 +53,7 @@ namespace DataSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FacTypeCode,FacType,FacTypeCatCode,FacTypeDari,FacTypePashto")] FacilityTypes facilityTypes)
+        public async Task<IActionResult> Create([Bind("FacTypeCode,FacType,FacTypeCatCode,FacTypeDari,FacTypePashto,TypeAbbrv")] FacilityTypes facilityTypes)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace DataSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FacTypeCode,FacType,FacTypeCatCode,FacTypeDari,FacTypePashto")] FacilityTypes facilityTypes)
+        public async Task<IActionResult> Edit(int id, [Bind("FacTypeCode,FacType,FacTypeCatCode,FacTypeDari,FacTypePashto,TypeAbbrv")] FacilityTypes facilityTypes)
         {
             if (id != facilityTypes.FacTypeCode)
             {

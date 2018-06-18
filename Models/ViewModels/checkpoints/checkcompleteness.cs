@@ -15,11 +15,11 @@ public partial class checkcompleteness
     public int IPDSAM_submission { get; set; }
     public int OPDSAM_submission { get; set; }
     public int OPDMAM_submission { get; set; }
-    public int IYCF_submission { get; set; }
     public int MNS_submission { get; set; }
     public int OPDMAM_stock_submission { get; set; }
     public int IPDSAM_stock_submission { get; set; }
     public int OPDSAM_stock_submission { get; set; }
     public string UserName { get; set; }
     public int Tenant {get;set;}
+    public string MyId{get;set;}
 }

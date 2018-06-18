@@ -24,7 +24,7 @@ namespace DataSystem.Models.ViewModels
         public int? stat { get; set; }
         public int? hfstat { get; set; }
         public string message{get;set;}
-
+        public string TypeAbbrv {get;set;}
 
     }
 }

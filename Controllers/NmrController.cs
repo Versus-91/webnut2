@@ -126,6 +126,7 @@ namespace DataSystem.Controllers
                 FacilityId=m.FacilityId, 
                 Province=m.Facility.DistNavigation.ProvCodeNavigation.ProvName,             
                 FacilityName = m.Facility.FacilityName,
+                TypeAbbrv =m.Facility.FacilityTypeNavigation.TypeAbbrv,
                 Implementer = m.Implementer,
                 HfStatus = m.HfactiveStatus.HfstatusDescription,
                 stat = m.StatusId,

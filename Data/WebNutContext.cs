@@ -9,12 +9,9 @@ namespace DataSystem.Models
     {
         public WebNutContext(DbContextOptions<WebNutContext> options) : base(options)
         {
-
-
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,6 +35,7 @@ namespace DataSystem.Models
     entity.Property(e => e.IPDSAM_stock_submission);
     entity.Property(e => e.OPDSAM_stock_submission);
     entity.Property(e => e.UserName);
+    entity.Property(e => e.MyId);
 });
 
             modelBuilder.Entity<submissionRes>(entity =>
@@ -70,6 +68,7 @@ namespace DataSystem.Models
                 entity.Property(e => e.M10);
                 entity.Property(e => e.M11);
                 entity.Property(e => e.M12);
+                entity.Property(e =>e.ProvId);
             });
 
             modelBuilder.Entity<nmrsubmission>(entity =>
@@ -192,6 +191,7 @@ namespace DataSystem.Models
                 entity.Property(e => e.FacTypeDari).HasMaxLength(50);
 
                 entity.Property(e => e.FacTypePashto).HasMaxLength(50);
+                entity.Property(e => e.TypeAbbrv).HasMaxLength(10);
             });
 
             modelBuilder.Entity<Implementers>(entity =>
@@ -1073,15 +1073,13 @@ namespace DataSystem.Models
                           entity.Property(e => e.Nmrid)
                               .HasColumnName("NMRID")
                               .HasMaxLength(100);
-                          entity.Property(e => e.Initiator).HasMaxLength(255);
-                          entity.Property(e => e.Respondent).HasMaxLength(255);
-                          entity.Property(e => e.Respondent).HasMaxLength(255);
-                          entity.Property(e => e.Problem).HasMaxLength(255);
-
+                          entity.Property(e => e.CommentedBy).HasMaxLength(255);
+                          entity.Property(e => e.Message).HasMaxLength(255);
                           entity.HasOne(d => d.Nmr)
                               .WithMany(p => p.Feedback)
                               .HasForeignKey(d => d.Nmrid)
                               .HasConstraintName("FK_Feedback_NMR");
+                        entity.Property(e => e.CommentDate);
                       });
         }
         public virtual DbSet<Tenant> Tenants { get; set; }
@@ -1123,5 +1121,6 @@ namespace DataSystem.Models
         public virtual DbSet<YearFilter> YearFilter { get; set; }
         public virtual DbSet<ProvinceFilter> ProvinceFilter { get; set; }
         public virtual DbSet<ImpFilter> ImpFilter { get; set; }
+        public virtual DbSet<provincemonthly> provincemonthly {get;set;}
     }
 }

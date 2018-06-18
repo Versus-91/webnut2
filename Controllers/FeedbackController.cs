@@ -18,7 +18,8 @@ namespace DataSystem.Controllers
         {
             _context = context;
         }
-        [Authorize(Roles = "dataentry")]
+
+        [Authorize(Roles = "dataentry,administrator")]
 
         public async Task<IActionResult> Index(string nmrid)
         {
@@ -36,38 +37,76 @@ namespace DataSystem.Controllers
             model.items = _context.Feedback.Where(m => m.Nmrid.Equals(nmrid)).ToList();
             return View(model);
         }
+        [Authorize(Roles = "dataentry,administrator")]
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "dataentry")]
-        public async Task<IActionResult> Create([Bind("Nmrid,Problem")] Feedback item)
+        public async Task<IActionResult> List(string nmrid)
         {
-            if (ModelState.IsValid)
+            if (nmrid == null)
             {
-                item.Initiator = User.Identity.Name;
-                _context.Add(item);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index", new { nmrid = item.Nmrid });
+                return NotFound("id not passed");
             }
-            return View(item);
-        }
-
-        [Authorize(Roles = "dataentry")]
-        public async Task<IActionResult> Edit(int id)
-        {
-
-
-            var item = await _context.Feedback.SingleOrDefaultAsync(m => m.Id == id && m.Initiator.Equals(User.Identity.Name));
+            var item = await _context.Nmr.Where(m => m.Nmrid.Equals(nmrid)).SingleOrDefaultAsync();
             if (item == null)
             {
                 return NotFound();
             }
+            var model = new Feedback();
+            model.Nmrid = item.Nmrid;
+            model.items = _context.Feedback.Where(m => m.Nmrid.Equals(nmrid)).ToList();
+            return View(model);
+        }
+        [Authorize(Roles = "dataentry,administrator")]
+        public IActionResult Create(string id)
+        {
+            if(id==null){
+                return BadRequest();
+                
+            }
+            ViewBag.Nmrid=id;
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "dataentry,administrator")]
+
+        public async Task<IActionResult> Create([Bind("Nmrid,Message")] Feedback item)
+        {
+            if (ModelState.IsValid)
+            {
+                var user=User.Identity.Name;
+                item.CommentedBy = user;
+                item.CommentDate = DateTime.Now;
+                _context.Add(item);
+                await _context.SaveChangesAsync();
+                if (User.IsInRole("administrator"))
+                {
+                    return RedirectToAction("adminnmr", "nmr", new { nmrid = item.Nmrid });
+                }
+                return RedirectToAction("Index", new { nmrid = item.Nmrid });
+            }
+            return View();
+        }
+
+        [Authorize(Roles = "dataentry,administrator")]
+        public async Task<IActionResult> Edit(int id)
+        {
+
+            var user = User.Identity.Name;
+            var item = await _context.Feedback.SingleOrDefaultAsync(m => m.Id == id && m.CommentedBy.Equals(user));
+            if (item == null)
+            {
+                return NotFound();
+            }
+            if(user!=item.CommentedBy){
+                ViewBag.res=1;
+            }
             return View(item);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "dataentry")]
+        [Authorize(Roles = "dataentry,administrator")]
         public async Task<IActionResult> Edit(int id, [Bind] Feedback item)
         {
             if (id != item.Id)
@@ -78,10 +117,12 @@ namespace DataSystem.Controllers
             if (ModelState.IsValid)
             {
                 var model = _context.Feedback.Where(m => m.Id.Equals(id)).SingleOrDefault();
+                if(User.Identity.Name == model.CommentedBy){
                 try
                 {
-                    model.Problem = item.Problem;
-                    await _context.SaveChangesAsync();
+                        model.CommentedBy = User.Identity.Name;
+                        model.Message = item.Message;
+                        await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -94,12 +135,16 @@ namespace DataSystem.Controllers
                         throw;
                     }
                 }
+                if(User.IsInRole("administrator")){
+                    return RedirectToAction("reports","nmr", new { nmrid = model.Nmrid });
+                }
                 return RedirectToAction("Index", new { nmrid = model.Nmrid });
+                }
             }
             return View(item);
         }
 
-        [Authorize(Roles = "administrator")]
+        [Authorize(Roles = "dataentry,administrator")]
         public async Task<IActionResult> res(int id)
         {
 
@@ -109,12 +154,16 @@ namespace DataSystem.Controllers
             {
                 return NotFound();
             }
+            if(User.Identity.Name == item.CommentedBy){
+                return RedirectToAction("edit", new { id = item.Id });
+            }
             return View(item);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "administrator")]
+        [Authorize(Roles = "dataentry,administrator")]
+
         public async Task<IActionResult> res(int id, [Bind] Feedback item)
         {
             if (id != item.Id)
@@ -125,10 +174,16 @@ namespace DataSystem.Controllers
             if (ModelState.IsValid)
             {
                 var model = _context.Feedback.Where(m => m.Id.Equals(id)).SingleOrDefault();
+                var nmr =  _context.Nmr.Where(m =>m.Nmrid==model.Nmrid).SingleOrDefault();
+                if(!User.IsInRole("administrator")){
+                    if(nmr.UserName!=User.Identity.Name){
+                        return BadRequest();
+                    }
+                }
                 try
                 {
-                    model.Respondent = User.Identity.Name;
-                    model.Respose = item.Respose;
+                    model.CommentedBy = User.Identity.Name;
+                    model.Message = item.Message;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -142,15 +197,17 @@ namespace DataSystem.Controllers
                         throw;
                     }
                 }
+                if(!User.IsInRole("administrator")){
+                    return RedirectToAction("index", new { nmrid = model.Nmrid });
+                }
                 return RedirectToAction("reports","nmr", new { nmrid = model.Nmrid });
             }
             return View(item);
         }
 
-        // GET: Districts/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var item = _context.Feedback.Where(m => m.Initiator.Equals(User.Identity.Name) && m.Id == id).SingleOrDefault();
+            var item = _context.Feedback.Where(m => m.CommentedBy.Equals(User.Identity.Name) && m.Id == id).SingleOrDefault();
 
             if (item == null)
             {
@@ -160,7 +217,6 @@ namespace DataSystem.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", new { nmrid = item.Nmrid });
         }
-
         private bool DistrictsExists(int id)
         {
             return _context.Feedback.Any(e => e.Id == id);

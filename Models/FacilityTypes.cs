@@ -14,5 +14,8 @@ namespace DataSystem.Models
         public string FacTypeDari { get; set; }
         [Display(Name = "Type Pashto")]
         public string FacTypePashto { get; set; }
+
+        [Required]
+        public string TypeAbbrv { get; set; }
     }
 }

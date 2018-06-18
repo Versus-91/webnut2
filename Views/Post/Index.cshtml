@@ -1,0 +1,31 @@
+@model DataSystem.Models.Comment
+
+<div class="comment-form-container">
+    <form class="comment-form" asp-acttion="Post" asp-controller="Post">
+        <input type="hidden" asp-for="Id" />
+        <div class="comment-body">
+            <div>
+                <label asp-for="Author" class="col-md-3 control-label text-nowrap"></label>
+            </div>
+            <input asp-for="Author" class="comment-name" />
+        </div>
+        <div>
+            <div>
+                <label asp-for="Email" class="col-md-3 control-label text-nowrap"></label>
+            </div>
+            <input asp-for="Email" class="comment-email" />
+        </div>
+        <div>
+            <div>
+                <label asp-for="Body" class="col-md-3 control-label text-nowrap"></label>
+            </div>
+            <textarea asp-for="Body" class="comment-body" rows="3" cols="50"></textarea>
+        </div>
+        <div class="comment-result" style="display: none;">
+            <span class="comment-result-text">An error occurred</span>
+        </div>
+        <div>
+            <input type="submit" value="Submit comment" class="comment-form-submit" />
+        </div>
+    </form>
+</div>

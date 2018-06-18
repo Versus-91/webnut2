@@ -1,5 +1,6 @@
-function FormViewModel(model) {
+function FormViewModel(model,user) {
     var self = this;
+    self.user=ko.observable(user);
     self.rep = ko.observableArray();
     self.opds = ko.observableArray();
     self.opdstocks = ko.observableArray();
@@ -19,7 +20,14 @@ function FormViewModel(model) {
         return length;
 
     });
+    self.owner=function(name){
+        if(name === self.user()){
+            return true;
 
+        }else{
+            return false;
+        }
+    };
     function ajaxHelper(uri, method, data, token) {
         self.error('');
         self.success('');
@@ -51,6 +59,42 @@ function FormViewModel(model) {
             self.all(data);
         });
     }
+
+    self.sendMessage= function(form) {
+            var para = $('#Nmrid').val();
+            var url = "/feedback/create/" + para;
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $("#message").serialize(), // serializes the form's elements.
+                    success: function (data) {
+                        $.notify("sent.", "success");
+                        getQuestions();
+                        $("#message").trigger("reset");
+                    },
+                }).fail(function () {
+                    $.notify("failed.", "warning");
+
+                }
+                    );
+            
+    }
+    self.deleteMessage= function(data) {
+        var url = "/feedback/delete/" + data.id;
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function () {
+                    $.notify("deleted.", "success");
+                    getQuestions();
+                },
+            }).fail(function () {
+                $.notify("failed to delete.", "warning");
+
+            }
+                );
+        
+}
 
     function getopds() {
         var token = $("input[name=__RequestVerificationToken]").val();
